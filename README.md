@@ -101,6 +101,12 @@ By default the server only accepts connections from your own computer. To host i
 - **A privacy policy.** Uploaded resumes are stored in plain files in `users/` until they are deleted, or for 30 days after a session's last visit.
 - **One server process only.** Chats are kept in memory, so they are lost when the server restarts.
 
+### A temporary public link
+
+To show the app to a few people from your own computer, install [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps) with `winget install --id Cloudflare.cloudflared --source winget`, then double-click `start-public.bat`. The link is printed in the tunnel's window as a `trycloudflare.com` address.
+
+This is for demos, not for production. The link changes every time and has no uptime guarantee, and it only works while your computer is on with both windows open. Anyone with the link can use the app and upload a resume, so only share it with people you trust. Close both windows to take it offline.
+
 ## How it's built
 
 `main.py` starts the app. It adds the site's routes from `manzil_site/` in front of the agent's own FastAPI app, which it mounts without changing.
