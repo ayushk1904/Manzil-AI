@@ -1,11 +1,11 @@
 @echo off
-rem Double-click this to start CareerPilot. It opens your browser by itself.
+rem Double-click this to start Manzil AI. It opens your browser by itself.
 cd /d "%~dp0"
 if exist ".venv\Scripts\python.exe" (
-  ".venv\Scripts\python.exe" step9_web_ui.py
+  ".venv\Scripts\python.exe" main.py
 ) else if exist "%USERPROFILE%\.venv\Scripts\python.exe" (
-  "%USERPROFILE%\.venv\Scripts\python.exe" step9_web_ui.py
+  "%USERPROFILE%\.venv\Scripts\python.exe" main.py
 ) else (
-  python step9_web_ui.py
+  python main.py
 )
 if errorlevel 1 pause

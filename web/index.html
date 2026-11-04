@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CareerPilot</title>
+  <title>Manzil AI | Your AI career agent</title>
+  <meta name="description" content="Manzil AI is your AI career agent. Upload your resume to find real openings, check your fit and write cover letters, and learn new skills in the Resource Hub.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%231d4ed8' d='M2 11 22 2l-7 20-3-8z'/></svg>">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="pages.css">
+  <link rel="stylesheet" href="/site/site.css">
 </head>
 <body>
   <svg width="0" height="0" class="sprite" aria-hidden="true">
@@ -24,7 +26,7 @@
   <aside class="cockpit" id="cockpit" aria-label="Your profile and jobs">
     <a class="brand" href="/">
       <svg class="brand-mark"><use href="#i-plane"/></svg>
-      <span>CareerPilot</span>
+      <span>Manzil AI</span>
     </a>
 
     <div id="profile-box" hidden>
@@ -52,6 +54,7 @@
 
     <button class="text-link link-btn delete-data" id="delete-data" type="button" hidden>Delete my data</button>
     <p class="sidebar-note" id="sidebar-note">Your profile will appear here once you upload your resume.</p>
+    <p class="chat-footer">&copy; 2026 Manzil AI. All rights reserved.</p>
   </aside>
 
   <div class="main">
@@ -62,6 +65,8 @@
       <nav class="tabs" id="tabs" aria-label="Sections">
         <button class="tab" type="button" data-tab="chat">Chat</button>
         <button class="tab" type="button" data-tab="match">Job Match</button>
+        <a class="tab-link" href="/resources">Resource Hub</a>
+        <a class="tab-link" id="account-link" href="/account">Account</a>
       </nav>
       <button class="ghost-btn" id="new-chat" type="button">New chat</button>
       <button class="icon-btn" id="theme" type="button" aria-label="Switch light or dark theme">
@@ -70,15 +75,15 @@
     </header>
 
     <section class="offline" id="offline" role="alert" hidden>
-      <h2>CareerPilot isn't running</h2>
-      <p>Start the server with <code>python step9_web_ui.py</code>. This page connects as soon as it's running.</p>
+      <h2>Manzil AI isn't running</h2>
+      <p>Start the server with <code>python main.py</code>. This page connects as soon as it's running.</p>
     </section>
     <p class="notice" id="notice" role="status" hidden></p>
 
     <div class="panel panel-chat" id="panel-chat">
       <main class="chat" id="chat">
         <section class="hello" id="hello">
-          <p class="eyebrow">Welcome to CareerPilot</p>
+          <p class="eyebrow">Welcome to Manzil AI</p>
           <h1>Your AI career copilot</h1>
           <p class="lede">Upload your resume, tell me the role you want and where, and I'll find real openings that fit, including at startups.</p>
           <button class="dropzone" id="dropzone" type="button">
@@ -90,11 +95,12 @@
           </button>
           <p class="error-text" id="upload-error" role="alert" hidden></p>
           <button class="continue-btn" id="continue-resume" type="button" hidden></button>
+          <p class="hub-hint">Want to learn a new skill first? Open the <a href="/resources">Resource Hub</a>.</p>
         </section>
         <div class="thread" id="thread" aria-live="polite"></div>
       </main>
       <form class="composer" id="composer">
-        <label class="sr-only" for="input">Message CareerPilot</label>
+        <label class="sr-only" for="input">Message Manzil AI</label>
         <div class="composer-box">
           <textarea id="input" rows="1" maxlength="4000" placeholder="Ask about a job or your skills…"></textarea>
           <button class="send" id="send" type="submit" aria-label="Send message" disabled>
@@ -120,5 +126,6 @@
   </div>
 
   <script src="app.js"></script>
+  <script src="/site/chat-nav.js"></script>
 </body>
 </html>

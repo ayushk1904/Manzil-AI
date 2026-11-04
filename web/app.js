@@ -274,7 +274,7 @@ function addAgentMessage(text) {
 
 function makeDots() {
   const dots = el("div", "typing-dots");
-  dots.setAttribute("aria-label", "CareerPilot is writing");
+  dots.setAttribute("aria-label", "Manzil AI is writing");
   dots.append(el("i"), el("i"), el("i"));
   return dots;
 }
@@ -710,7 +710,7 @@ async function uploadResume(file) {
 }
 
 async function deleteMyData() {
-  if (!confirm("Delete your resume, saved cover letters and chats from CareerPilot? This can't be undone.")) return;
+  if (!confirm("Delete your resume, saved cover letters and chats from Manzil AI? This can't be undone.")) return;
   const response = await fetch("/api/delete-my-data", { method: "POST" }).catch(() => null);
   if (!response || !response.ok) {
     showNotice(false, "I couldn't delete your data. Please try again.");
