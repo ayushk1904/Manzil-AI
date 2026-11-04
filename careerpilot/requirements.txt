@@ -1,0 +1,11 @@
+fastapi>=0.162
+uvicorn>=0.54
+pymupdf>=2.1
+ollama>=0.6
+langchain>=1.4
+langchain-ollama>=1.1
+langgraph>=1.2
+torch>=2.11
+transformers>=5.22
+peft>=0.21
+accelerate>=1.15

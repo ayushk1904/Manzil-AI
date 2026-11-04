@@ -1,0 +1,21 @@
+# Secret keys: never publish these
+.env
+
+# Personal data: never publish these
+users/
+resume.txt
+resume*.pdf
+application_job_*.txt
+
+# Downloaded job openings. The app fetches a fresh copy.
+jobs_cache.json
+jobs_cache.tmp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor settings
+.vscode/
