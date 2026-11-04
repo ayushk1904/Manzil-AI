@@ -48,12 +48,6 @@
 }
 .side-link:hover { color: var(--cockpit-ink); background: var(--cockpit-2); }
 .side-link[aria-current="true"] { color: var(--accent); background: var(--cockpit-2); }
-.side-stats { display: grid; gap: 6px; margin: 0; }
-.side-stat { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 13.5px; }
-.side-stat dt { color: var(--cockpit-muted); }
-.side-stat dd { margin: 0; font: 600 12.5px/1.3 var(--mono); overflow-wrap: anywhere; text-align: right; }
-.side-note { font-size: 13.5px; color: var(--cockpit-muted); }
-.side-list { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--cockpit-muted); display: grid; gap: 4px; }
 
 /* Page layout */
 .page-wide { max-width: 980px; }

@@ -3,30 +3,14 @@ const topicSearchForm = byId("topic-search-form");
 const topicSearchInput = byId("topic-search-input");
 const topicSearchButton = byId("topic-search-button");
 const topicSearchFeedback = byId("topic-search-feedback");
-const visibleCount = byId("visible-count");
-const currentMode = byId("current-mode");
-const dashboardNote = byId("dashboard-note");
-const providerStatus = byId("provider-status");
-const backendStatus = byId("backend-status");
 const resultsHeading = byId("results-heading");
 const resultsGrid = byId("results-grid");
 const emptyState = byId("empty-state");
-const summaryTopic = byId("summary-topic");
-const summaryResults = byId("summary-results");
-const summaryState = byId("summary-state");
 const filterTabs = document.querySelectorAll("[data-filter]");
 
 let activeFilter = "all";
-let searchRunCount = 0;
 let currentResults = [];
 let lastSearchTopic = "";
-
-const filterNotes = {
-  all: "Showing the complete learning pack for this topic.",
-  video: "Showing only video results for guided walkthrough learning.",
-  resource: "Showing documentation, articles, and practical resource links.",
-  paper: "Showing research-paper style links and deeper reading."
-};
 
 const cardIcons = {
   video: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 6.25A2.25 2.25 0 0 0 3.25 8.5v7A2.25 2.25 0 0 0 5.5 17.75h8A2.25 2.25 0 0 0 15.75 15.5v-7A2.25 2.25 0 0 0 13.5 6.25h-8Zm12.11 2.09-1.86 1.07v5.18l1.86 1.07A1.25 1.25 0 0 0 19.5 14.6V9.4a1.25 1.25 0 0 0-1.89-1.06Z"/></svg>',
@@ -87,18 +71,11 @@ function renderResults() {
   }
   emptyState.hidden = shown.length > 0;
   resultsGrid.hidden = shown.length === 0;
-  visibleCount.textContent = String(shown.length);
-  summaryResults.textContent = String(currentResults.length);
-  currentMode.textContent = activeFilter.toUpperCase();
-  dashboardNote.textContent = filterNotes[activeFilter];
 }
 
-function setSearchState({ feedback, note, state, provider, busy = false, error = false }) {
+function setSearchState({ feedback, busy = false, error = false }) {
   topicSearchFeedback.textContent = feedback;
   topicSearchFeedback.classList.toggle("is-error", error);
-  dashboardNote.textContent = note;
-  summaryState.textContent = state;
-  providerStatus.textContent = provider;
   topicSearchButton.disabled = busy;
 }
 
@@ -107,13 +84,11 @@ async function checkBackendHealth() {
     const response = await fetch("/api/site/health");
     const data = await readJson(response, "Backend returned a non-JSON response.");
     if (!response.ok || !data.ok) throw new Error();
-    backendStatus.textContent = "ONLINE";
     if (!topicSearchInput.value.trim()) {
       topicSearchFeedback.textContent = "";
       topicSearchFeedback.classList.remove("is-error");
     }
   } catch {
-    backendStatus.textContent = "OFFLINE";
     topicSearchFeedback.textContent = "Manzil AI isn't running. Start it with python main.py.";
     topicSearchFeedback.classList.add("is-error");
   }
@@ -122,13 +97,11 @@ async function checkBackendHealth() {
 async function runSearch(topic) {
   const trimmedTopic = topic.trim();
   if (!trimmedTopic) {
-    setSearchState({ feedback: "Please enter a topic to search.", note: "Waiting for a valid topic input.",
-                     state: "NEEDS TOPIC", provider: "SETUP", error: true });
+    setSearchState({ feedback: "Please enter a topic to search.", error: true });
     return;
   }
 
-  setSearchState({ feedback: `Searching live resources for "${trimmedTopic}"...`, note: `Collecting live results for ${trimmedTopic}.`,
-                   state: "SEARCHING", provider: "LIVE", busy: true });
+  setSearchState({ feedback: `Searching live resources for "${trimmedTopic}"...`, busy: true });
 
   try {
     const response = await fetch(`/api/resources/search?topic=${encodeURIComponent(trimmedTopic)}`);
@@ -137,27 +110,17 @@ async function runSearch(topic) {
 
     currentResults = [...(data.resources || []), ...(data.videos || []), ...(data.papers || [])];
     lastSearchTopic = data.topic;
-    searchRunCount += 1;
-    summaryTopic.textContent = String(searchRunCount);
     resultsHeading.textContent = `Live results for "${data.topic}"`;
 
-    setSearchState({ feedback: `Loaded ${currentResults.length} results for "${data.topic}".`, note: `Showing a live learning pack for ${data.topic}.`,
-                     state: "READY", provider: "ACTIVE" });
-
-    if (Array.isArray(data.providerWarnings) && data.providerWarnings.length) {
-      topicSearchFeedback.textContent = `Loaded ${currentResults.length} results for "${data.topic}". ${data.providerWarnings.join(" ")}`;
-      providerStatus.textContent = "PARTIAL";
-      summaryState.textContent = "PARTIAL";
-    }
+    const warnings = Array.isArray(data.providerWarnings) ? data.providerWarnings.join(" ") : "";
+    setSearchState({ feedback: `Loaded ${currentResults.length} results for "${data.topic}". ${warnings}`.trim() });
     renderResults();
   } catch (error) {
     currentResults = [];
     lastSearchTopic = trimmedTopic;
     resultsHeading.textContent = `Search results for "${trimmedTopic}"`;
     renderResults();
-    setSearchState({ feedback: error instanceof TypeError ? "I lost the connection. Please try again in a moment." : error.message,
-                     note: "Search could not complete. Check that the local service is running and your API keys are set.",
-                     state: "ERROR", provider: "CHECK", error: true });
+    setSearchState({ feedback: error instanceof TypeError ? "I lost the connection. Please try again in a moment." : error.message, error: true });
   } finally {
     topicSearchButton.disabled = false;
   }
@@ -289,5 +252,4 @@ document.querySelectorAll(".faq-card").forEach((card, _, cards) => {
 
 showSection();
 renderResults();
-dashboardNote.textContent = "Waiting for your first live topic search.";
 checkBackendHealth();
