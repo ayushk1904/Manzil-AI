@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "AI Engineer Intern",
+    "company": "Example Labs",
+    "description": "Build AI agents with Python, LangGraph and RAG. Knowledge of vector databases is required."
+  },
+  {
+    "id": 2,
+    "title": "Frontend Developer",
+    "company": "Sample Tech",
+    "description": "Build web apps with React, TypeScript and Next.js. Experience with testing is a plus."
+  },
+  {
+    "id": 3,
+    "title": "Machine Learning Engineer",
+    "company": "Demo AI",
+    "description": "Train and fine-tune models with PyTorch. Docker and cloud deployment experience is required."
+  }
+]

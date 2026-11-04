@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CareerPilot</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%231d4ed8' d='M2 11 22 2l-7 20-3-8z'/></svg>">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <svg width="0" height="0" class="sprite" aria-hidden="true">
+    <symbol id="i-plane" viewBox="0 0 24 24"><path d="M2 11 22 2l-7 20-3-8zM12 14 22 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-theme" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5M7 10l5-5 5 5M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <input class="sr-only" id="resume-file" type="file" accept="application/pdf,.pdf" tabindex="-1" aria-label="Choose your resume PDF">
+
+  <div class="scrim" id="scrim" hidden></div>
+
+  <aside class="cockpit" id="cockpit" aria-label="Your profile and jobs">
+    <a class="brand" href="/">
+      <svg class="brand-mark"><use href="#i-plane"/></svg>
+      <span>CareerPilot</span>
+    </a>
+
+    <div id="profile-box" hidden>
+      <section class="pilot">
+        <div class="avatar" id="avatar" aria-hidden="true"></div>
+        <div class="pilot-text">
+          <h2 id="pilot-name"></h2>
+          <p id="pilot-place"></p>
+        </div>
+      </section>
+      <div class="resume-actions">
+        <a class="text-link" href="/api/resume" target="_blank" rel="noopener">View resume</a>
+        <button class="text-link link-btn" id="replace-resume" type="button">Upload new PDF</button>
+      </div>
+      <details class="skills">
+        <summary>Your skills</summary>
+        <div id="skills"></div>
+      </details>
+    </div>
+
+    <section id="letters-section" hidden>
+      <h3 class="eyebrow">Saved cover letters</h3>
+      <ul class="letters" id="letters"></ul>
+    </section>
+
+    <button class="text-link link-btn delete-data" id="delete-data" type="button" hidden>Delete my data</button>
+    <p class="sidebar-note" id="sidebar-note">Your profile will appear here once you upload your resume.</p>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn only-small" id="menu" type="button" aria-label="Show profile and jobs">
+        <svg><use href="#i-menu"/></svg>
+      </button>
+      <nav class="tabs" id="tabs" aria-label="Sections">
+        <button class="tab" type="button" data-tab="chat">Chat</button>
+        <button class="tab" type="button" data-tab="match">Job Match</button>
+      </nav>
+      <button class="ghost-btn" id="new-chat" type="button">New chat</button>
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch light or dark theme">
+        <svg><use href="#i-theme"/></svg>
+      </button>
+    </header>
+
+    <section class="offline" id="offline" role="alert" hidden>
+      <h2>CareerPilot isn't running</h2>
+      <p>Start the server with <code>python step9_web_ui.py</code>. This page connects as soon as it's running.</p>
+    </section>
+    <p class="notice" id="notice" role="status" hidden></p>
+
+    <div class="panel panel-chat" id="panel-chat">
+      <main class="chat" id="chat">
+        <section class="hello" id="hello">
+          <p class="eyebrow">Welcome to CareerPilot</p>
+          <h1>Your AI career copilot</h1>
+          <p class="lede">Upload your resume, tell me the role you want and where, and I'll find real openings that fit, including at startups.</p>
+          <button class="dropzone" id="dropzone" type="button">
+            <svg><use href="#i-upload"/></svg>
+            <span class="dropzone-text">
+              <b>Upload your resume to start</b>
+              <span>Choose a PDF, or drop it here. The conversation starts right after.</span>
+            </span>
+          </button>
+          <p class="error-text" id="upload-error" role="alert" hidden></p>
+          <button class="continue-btn" id="continue-resume" type="button" hidden></button>
+        </section>
+        <div class="thread" id="thread" aria-live="polite"></div>
+      </main>
+      <form class="composer" id="composer">
+        <label class="sr-only" for="input">Message CareerPilot</label>
+        <div class="composer-box">
+          <textarea id="input" rows="1" maxlength="4000" placeholder="Ask about a job or your skills…"></textarea>
+          <button class="send" id="send" type="submit" aria-label="Send message" disabled>
+            <svg><use href="#i-send"/></svg>
+          </button>
+        </div>
+        <p class="hint">Your resume is private to you. Delete it any time from the sidebar.</p>
+      </form>
+    </div>
+
+    <div class="panel" id="panel-match" hidden>
+      <div class="page">
+        <h1>Job Match</h1>
+        <p class="lede">Found a job you like? Paste the post to see which skills you already have and which to build.</p>
+        <form class="tool-card" id="scan-form">
+          <label for="scan-input">Job post</label>
+          <textarea id="scan-input" rows="6" maxlength="2000" placeholder="Paste the job description here…"></textarea>
+          <button class="primary-btn" id="scan-go" type="submit">Check my match</button>
+        </form>
+        <section class="tool-card" id="scan-result" aria-live="polite" hidden></section>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
