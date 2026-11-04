@@ -17,7 +17,7 @@ __pycache__/
 .venv/
 venv/
 
-# Node, until the old Express app is removed
+# Node, left over from the old Express app
 node_modules/
 
 # Logs and system files
