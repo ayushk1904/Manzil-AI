@@ -1,5 +1,22 @@
 /* The Manzil AI pages around the agent. The colors, fonts and buttons come from the agent's style.css and pages.css. */
 
+/* The logo. Each theme shows the version made for it, whether the theme comes from the system or the button */
+.brand-logo { display: block; width: auto; height: 46px; }
+.logo-for-dark { display: none; }
+.topbar-brand { display: none; }
+.site-footer .brand-logo { height: 30px; }
+.msg-agent > .agent-mark { background: url("/site/logo-mark-light.png") center / 20px no-repeat, var(--surface); }
+.agent-mark svg { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-for-light { display: none; }
+  :root:not([data-theme="light"]) .logo-for-dark { display: block; }
+  :root:not([data-theme="light"]) .msg-agent > .agent-mark { background: url("/site/logo-mark-dark.png") center / 20px no-repeat, var(--surface); }
+}
+:root[data-theme="dark"] .logo-for-light { display: none; }
+:root[data-theme="dark"] .logo-for-dark { display: block; }
+:root[data-theme="dark"] .msg-agent > .agent-mark { background: url("/site/logo-mark-dark.png") center / 20px no-repeat, var(--surface); }
+
 /* Main navigation links next to the agent's Chat and Job Match tabs */
 .tab-link {
   flex: none;
@@ -61,8 +78,6 @@
   color: var(--muted);
   font-size: 13.5px;
 }
-.site-footer .brand { font-size: 16px; color: var(--ink); }
-.site-footer .brand-mark { width: 20px; height: 20px; }
 .footer-links { display: flex; gap: 14px; }
 .footer-links a { color: var(--muted); }
 .footer-links a:hover { color: var(--ink); }
@@ -123,4 +138,27 @@
   .site-footer { padding: 14px 16px; }
   .tab, .tab-link { padding: 7px 10px; font-size: 14.5px; }
   .search-row { flex-direction: column; }
+
+  /* The sidebar is hidden here, so the logo moves to the top. The links get their own row and all stay visible. */
+  .topbar { flex-wrap: wrap; row-gap: 4px; }
+  .topbar-brand { display: block; margin-right: auto; }
+  .topbar-brand .brand-logo { height: 36px; }
+  .topbar-brand .logo-for-dark { display: none; }
+  .topbar .tabs { order: 3; flex: 0 0 100%; }
+}
+
+/* The smallest phones: keep the logo and buttons on one row */
+@media (max-width: 360px) {
+  .topbar-brand .brand-logo { height: 28px; }
+  .topbar .ghost-btn { padding: 6px 8px; font-size: 13px; }
+  .topbar { gap: 6px; }
+}
+
+@media (max-width: 860px) and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .topbar-brand .logo-for-light { display: none; }
+  :root:not([data-theme="light"]) .topbar-brand .logo-for-dark { display: block; }
+}
+@media (max-width: 860px) {
+  :root[data-theme="dark"] .topbar-brand .logo-for-light { display: none; }
+  :root[data-theme="dark"] .topbar-brand .logo-for-dark { display: block; }
 }
