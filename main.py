@@ -20,10 +20,9 @@ HERE = Path(__file__).parent
 load_dotenv(HERE / ".env")
 
 import step9_web_ui
-from manzil_site import accounts, pages, resource_hub
+from manzil_site import pages, resource_hub
 
 app = FastAPI(title="Manzil AI", docs_url=None, redoc_url=None, openapi_url=None)
-app.include_router(accounts.router)
 app.include_router(resource_hub.router)
 app.include_router(pages.router)
 app.mount("/site", StaticFiles(directory=HERE / "manzil_site" / "static"))

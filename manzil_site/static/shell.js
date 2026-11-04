@@ -1,4 +1,4 @@
-// The parts every site page shares with the agent's page: the theme, the mobile drawer and the account link.
+// The parts the Resource Hub shares with the agent's page: the theme and the mobile drawer.
 const byId = (id) => document.getElementById(id);
 
 function savedTheme() {
@@ -24,13 +24,6 @@ function closeDrawer() {
   byId("scrim").hidden = true;
 }
 
-function showAccountLink() {
-  const link = byId("account-link");
-  if (!link || localStorage.getItem("manzilAuthToken")) return;
-  link.textContent = "Log in";
-  link.href = "/login";
-}
-
 async function readJson(response, problem) {
   const text = await response.text();
   try {
@@ -47,7 +40,6 @@ function setUpShell() {
   byId("menu").addEventListener("click", openDrawer);
   byId("scrim").addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeDrawer(); });
-  showAccountLink();
 }
 
 setUpShell();

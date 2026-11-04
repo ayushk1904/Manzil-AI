@@ -15,14 +15,14 @@ The AI model runs locally through [Ollama](https://ollama.com), so the agent nee
 - **Pay and contacts:** shown when the job post publishes them. Anything not published is marked as such, never guessed.
 - **Private sessions:** each browser has its own resume and letters, and "Delete my data" removes them.
 
-**The Resource Hub** (log in to use it)
+**The Resource Hub**
 
 - **Learning search:** search a topic to get resources, videos and papers on one board, with filters.
 - **Guide and About:** how the Hub works and what it's for.
 
 ## Run it
 
-You need Python 3.12 or newer and [Ollama](https://ollama.com). A GPU with about 8 GB of memory is recommended. Without one the agent still works, but slowly. Accounts and the Resource Hub need a MongoDB database, such as a [MongoDB Atlas](https://www.mongodb.com/atlas) cluster.
+You need Python 3.12 or newer and [Ollama](https://ollama.com). A GPU with about 8 GB of memory is recommended. Without one the agent still works, but slowly.
 
 ```bash
 python -m venv .venv
@@ -42,14 +42,12 @@ python main.py
 
 Your browser opens http://127.0.0.1:8000. On Windows you can also double-click `start.bat`.
 
-If MongoDB isn't reachable, the agent keeps working and only logging in and the Resource Hub stop. The first Job Match check downloads a small model of about 270 MB.
+The first Job Match check downloads a small model of about 270 MB.
 
 ## Environment variables
 
 | Name | Needed for |
 |---|---|
-| `MONGODB_URI` | Accounts. It must end with a database name. |
-| `JWT_SECRET` | Login sessions |
 | `GOOGLE_SEARCH_API_KEY`, `GOOGLE_SEARCH_ENGINE_ID`, `YOUTUBE_API_KEY` | Resource Hub search |
 | `ADZUNA_APP_ID`, `ADZUNA_APP_KEY`, `ADZUNA_COUNTRY` | Optional: more jobs |
 | `CAREERPILOT_HOST`, `CAREERPILOT_PORT` | Optional: where the app runs |
@@ -61,7 +59,7 @@ The `CAREERPILOT_` names and the session cookie keep the agent's original name s
 - It reads PDFs with selectable text. Scanned PDFs need OCR first.
 - Jobs come only from the companies in `companies.json`, and skill matching uses the list in `live_jobs.py`.
 - AI answers can be wrong. Check every cover letter before you send it.
-- A resume belongs to the browser it was uploaded in, not to a login.
+- A resume belongs to the browser it was uploaded in. There are no user accounts yet.
 
 ## Where the jobs come from
 
@@ -110,7 +108,7 @@ By default the server only accepts connections from your own computer. To host i
 | Path | What it is |
 |---|---|
 | `main.py` | Starts everything |
-| `manzil_site/` | Accounts, Resource Hub search, and their pages |
+| `manzil_site/` | Resource Hub search and its page |
 | `step9_web_ui.py`, `web/` | The agent's web app |
 | `step5_langgraph.py` | The agent's graph, with memory and human approval |
 | `application_letter.py`, `resume_search.py`, `live_jobs.py`, `trained_models.py` | Letters, resume search, job search and the skills model |
