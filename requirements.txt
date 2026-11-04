@@ -1,0 +1,25 @@
+# Exact versions the agent was tested with. Keep them, because a newer version could change how it behaves.
+# For a GPU build of torch on Windows or Linux, install it first from https://pytorch.org (this app used cu128).
+fastapi==0.162.0
+starlette==1.10.0
+uvicorn==0.54.0
+pydantic==2.14.2
+pymupdf==2.1
+ollama==0.6.3
+langchain==1.4.8
+langchain-core==1.7.4
+langchain-ollama==1.1.0
+langgraph==1.2.19
+langgraph-checkpoint==4.3.1
+torch==2.11.0
+transformers==5.22.1
+peft==0.21.2
+accelerate==1.15.0
+numpy==2.5.4
+
+# Accounts and the Resource Hub
+pymongo==4.19.0
+PyJWT==2.15.1
+bcrypt==5.0.0
+httpx==0.28.1
+python-dotenv==1.2.4
