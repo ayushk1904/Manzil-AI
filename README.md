@@ -18,7 +18,6 @@ The AI model runs locally through [Ollama](https://ollama.com), so the agent nee
 **The Resource Hub**
 
 - **Learning search:** search a topic to get resources, videos and papers on one board, with filters.
-- **Guide and About:** how the Hub works and what it's for.
 
 ## Run it
 
@@ -48,7 +47,8 @@ The first Job Match check downloads a small model of about 270 MB.
 
 | Name | Needed for |
 |---|---|
-| `GOOGLE_SEARCH_API_KEY`, `GOOGLE_SEARCH_ENGINE_ID`, `YOUTUBE_API_KEY` | Resource Hub search |
+| `YOUTUBE_API_KEY` | Resource Hub search |
+| `TAVILY_API_KEY` | Optional: live web results in the Resource Hub. Without it, the Resources filter shows saved links. |
 | `ADZUNA_APP_ID`, `ADZUNA_APP_KEY`, `ADZUNA_COUNTRY` | Optional: more jobs |
 | `CAREERPILOT_HOST`, `CAREERPILOT_PORT` | Optional: where the app runs |
 

@@ -1,8 +1,9 @@
-// The Resource Hub: the learning search, the guide and About.
+// The Resource Hub: the learning search.
 const topicSearchForm = byId("topic-search-form");
 const topicSearchInput = byId("topic-search-input");
 const topicSearchButton = byId("topic-search-button");
 const topicSearchFeedback = byId("topic-search-feedback");
+const resultsSection = byId("results-section");
 const resultsHeading = byId("results-heading");
 const resultsGrid = byId("results-grid");
 const emptyState = byId("empty-state");
@@ -34,7 +35,7 @@ function webLink(url) {
 
 function resultCard(item) {
   const link = webLink(item.url);
-  const source = item.type === "video" ? item.channelTitle || "YouTube" : item.source || "Google Search";
+  const source = item.type === "video" ? item.channelTitle || "YouTube" : item.source || "Web";
   const domain = item.type === "video" ? "" : `<span class="resource-domain">${escapeHtml(item.displayUrl || item.url)}</span>`;
   const thumbnail = item.type === "video" && item.thumbnail
     ? `<a class="resource-thumb" href="${link}" target="_blank" rel="noopener noreferrer"><img src="${webLink(item.thumbnail)}" alt="${escapeHtml(item.title)} thumbnail"></a>`
@@ -60,15 +61,8 @@ function renderResults() {
   const shown = currentResults.filter((item) => activeFilter === "all" || item.type === activeFilter);
   resultsGrid.innerHTML = shown.map(resultCard).join("");
 
-  if (!shown.length) {
-    const label = activeFilter === "all" ? "results" : `${activeFilter} results`;
-    emptyState.querySelector("h3").textContent = lastSearchTopic
-      ? `No ${label} found for "${lastSearchTopic}"`
-      : "Ask for a topic and build a study lane";
-    emptyState.querySelector("p").textContent = lastSearchTopic
-      ? `Try another topic or switch filters to see the available learning links for ${lastSearchTopic}.`
-      : "Try searching for a subject like JavaScript, operating systems, machine learning, or UI design.";
-  }
+  const label = activeFilter === "all" ? "results" : `${activeFilter} results`;
+  emptyState.textContent = `No ${label} for "${lastSearchTopic}".`;
   emptyState.hidden = shown.length > 0;
   resultsGrid.hidden = shown.length === 0;
 }
@@ -101,7 +95,7 @@ async function runSearch(topic) {
     return;
   }
 
-  setSearchState({ feedback: `Searching live resources for "${trimmedTopic}"...`, busy: true });
+  setSearchState({ feedback: "Searching…", busy: true });
 
   try {
     const response = await fetch(`/api/resources/search?topic=${encodeURIComponent(trimmedTopic)}`);
@@ -110,16 +104,14 @@ async function runSearch(topic) {
 
     currentResults = [...(data.resources || []), ...(data.videos || []), ...(data.papers || [])];
     lastSearchTopic = data.topic;
-    resultsHeading.textContent = `Live results for "${data.topic}"`;
+    resultsHeading.textContent = `Results for "${data.topic}"`;
+    resultsSection.hidden = false;
 
-    const warnings = Array.isArray(data.providerWarnings) ? data.providerWarnings.join(" ") : "";
-    setSearchState({ feedback: `Loaded ${currentResults.length} results for "${data.topic}". ${warnings}`.trim() });
+    // A provider failing means fallback links fill its place, so say these aren't all live results.
+    setSearchState({ feedback: data.providerWarnings?.length ? "Web search is unavailable, so some of these are suggested links, not live results." : "" });
     renderResults();
   } catch (error) {
-    currentResults = [];
-    lastSearchTopic = trimmedTopic;
-    resultsHeading.textContent = `Search results for "${trimmedTopic}"`;
-    renderResults();
+    resultsSection.hidden = true;
     setSearchState({ feedback: error instanceof TypeError ? "I lost the connection. Please try again in a moment." : error.message, error: true });
   } finally {
     topicSearchButton.disabled = false;
@@ -150,106 +142,4 @@ filterTabs.forEach((tab) => {
   });
 });
 
-/* ---------- Choosing a section ---------- */
-
-function showSection() {
-  const wanted = window.location.hash.slice(1);
-  const sections = document.querySelectorAll("[data-hub-section]");
-  const name = [...sections].some((section) => section.dataset.hubSection === wanted) ? wanted : "search";
-  sections.forEach((section) => { section.hidden = section.dataset.hubSection !== name; });
-  document.querySelectorAll("[data-hub-link]").forEach((link) => {
-    if (link.dataset.hubLink === name) link.setAttribute("aria-current", "true");
-    else link.removeAttribute("aria-current");
-  });
-  byId("hub-scroll").scrollTop = 0;
-  closeDrawer();
-}
-
-window.addEventListener("hashchange", showSection);
-
-/* ---------- The guide and About: choose an option and the text beside it changes ---------- */
-
-function setUpChoices(buttons, activeClass, onChoose) {
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      buttons.forEach((other) => {
-        other.classList.remove(activeClass);
-        if (other.hasAttribute("aria-pressed")) other.setAttribute("aria-pressed", "false");
-      });
-      button.classList.add(activeClass);
-      if (button.hasAttribute("aria-pressed")) button.setAttribute("aria-pressed", "true");
-      onChoose(button);
-    });
-  });
-}
-
-const guideViews = {
-  discover: { kicker: "Explore clearly", title: "See what the Hub offers before diving into the workspace.",
-              description: "The guide introduces the Hub, highlights value quickly, and gives new users a friendly starting point." },
-  plan: { kicker: "Build confidence", title: "Understand the path from curiosity to action.",
-          description: "Visitors can move from learning about the Hub to understanding its structure before committing to a deeper search workflow." },
-  launch: { kicker: "Start fast", title: "Move into the search when you are ready to work.",
-            description: "Clear calls to action make the transition into the main resource area feel intentional instead of abrupt." }
-};
-
-const flowViews = {
-  guide: "Start here to understand the Hub and get comfortable with the experience.",
-  about: "Visit About to learn the story, goals, and what each section is designed to do.",
-  search: "Open Search when you want a denser workspace for browsing and filtering resources."
-};
-
-const phases = {
-  idea: { title: "A need for a simpler starting point",
-          copy: "The Resource Hub begins with a common problem: learners waste energy jumping between random tutorials, docs, and tool lists." },
-  design: { title: "Separate sections with separate jobs",
-            copy: "The Hub was shaped so the Guide introduces, About explains, and Search helps people act inside a more useful workspace." },
-  impact: { title: "A calmer way to keep moving",
-            copy: "When each section has a purpose, users can explore without feeling buried under information or distracted by mixed goals." }
-};
-
-const values = {
-  clarity: { title: "Clarity first", copy: "Every section has a specific role so users are never wondering what the screen is trying to do." },
-  guidance: { title: "Guided flow", copy: "Navigation helps users move naturally from introduction to explanation and then into the resource workspace." },
-  action: { title: "Action-ready", copy: "The Hub is not just descriptive. It always points toward the next useful step." }
-};
-
-setUpChoices(document.querySelectorAll("[data-guide-view]"), "is-active", (button) => {
-  const view = guideViews[button.dataset.guideView];
-  byId("guide-kicker").textContent = view.kicker;
-  byId("guide-title").textContent = view.title;
-  byId("guide-description").textContent = view.description;
-});
-
-setUpChoices(document.querySelectorAll("[data-flow]"), "is-active", (button) => {
-  byId("flow-copy").textContent = flowViews[button.dataset.flow];
-});
-
-setUpChoices(document.querySelectorAll("[data-phase]"), "is-active", (button) => {
-  const phase = phases[button.dataset.phase];
-  byId("phase-title").textContent = phase.title;
-  byId("phase-copy").textContent = phase.copy;
-});
-
-setUpChoices(document.querySelectorAll("[data-value]"), "is-active", (button) => {
-  const value = values[button.dataset.value];
-  byId("value-title").textContent = value.title;
-  byId("value-copy").textContent = value.copy;
-});
-
-document.querySelectorAll(".faq-card").forEach((card, _, cards) => {
-  const question = card.querySelector(".faq-question");
-  const answer = card.querySelector(".faq-answer");
-  question.addEventListener("click", () => {
-    const opening = answer.hidden;
-    cards.forEach((other) => {
-      other.querySelector(".faq-answer").hidden = true;
-      other.querySelector(".faq-question").setAttribute("aria-expanded", "false");
-    });
-    answer.hidden = !opening;
-    question.setAttribute("aria-expanded", String(opening));
-  });
-});
-
-showSection();
-renderResults();
 checkBackendHealth();

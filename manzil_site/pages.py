@@ -7,9 +7,9 @@ from fastapi.responses import FileResponse, RedirectResponse
 PAGES = Path(__file__).parent / "pages"
 OLD_ADDRESSES = {
     "/dashboard.html": "/resources",
-    "/index.html": "/resources#guide",
-    "/about.html": "/resources#about",
-    "/about": "/resources#about",
+    "/index.html": "/resources",
+    "/about.html": "/resources",
+    "/about": "/resources",
     "/login": "/resources",
     "/login.html": "/resources",
     "/register": "/resources",

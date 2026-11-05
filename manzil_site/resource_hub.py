@@ -1,4 +1,4 @@
-"""The Resource Hub's search: Google for resources and papers, YouTube for videos, saved links as a fallback."""
+"""The Resource Hub's search: Tavily for resources, OpenAlex for papers, YouTube for videos, saved links as a fallback."""
 import asyncio
 import json
 import os
@@ -12,24 +12,52 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
 FALLBACKS = json.loads((Path(__file__).parent / "fallback_links.json").read_text(encoding="utf-8"))
-GOOGLE_URL = "https://www.googleapis.com/customsearch/v1"
+TAVILY_URL = "https://api.tavily.com/search"
+OPENALEX_URL = "https://api.openalex.org/works"
 YOUTUBE_URL = "https://www.googleapis.com/youtube/v3/search"
 RESULTS_PER_SEARCH = 6
+SNIPPET_LENGTH = 220
 TIMEOUT_SECONDS = 15
 
 router = APIRouter()
 
 
 def provider_keys():
-    return (os.environ.get("GOOGLE_SEARCH_API_KEY"),
-            re.sub(r"^cx=", "", os.environ.get("GOOGLE_SEARCH_ENGINE_ID", ""), flags=re.IGNORECASE),
-            os.environ.get("YOUTUBE_API_KEY"))
+    return os.environ.get("TAVILY_API_KEY"), os.environ.get("YOUTUBE_API_KEY")
 
 
-def normalize_google_items(items, kind):
-    return [{"title": item.get("title"), "url": item.get("link"), "snippet": item.get("snippet") or "No description available.",
-             "source": item.get("displayLink") or "Google Search", "displayUrl": item.get("formattedUrl") or item.get("link"),
-             "type": kind} for item in items]
+def short_snippet(text):
+    text = " ".join((text or "").split())
+    if len(text) <= SNIPPET_LENGTH:
+        return text or "No description available."
+    return text[:SNIPPET_LENGTH].rsplit(" ", 1)[0] + "…"
+
+
+def normalize_tavily_items(items):
+    return [{"title": item.get("title") or item.get("url"), "url": item.get("url"), "snippet": short_snippet(item.get("content")),
+             "source": urllib.parse.urlsplit(item.get("url") or "").netloc.removeprefix("www.") or "Web",
+             "displayUrl": item.get("url"), "type": "resource"} for item in items if item.get("url")]
+
+
+def abstract_text(inverted_index):
+    """OpenAlex stores each abstract as a map of word to positions, so put the words back in order."""
+    positions = [(position, word) for word, places in (inverted_index or {}).items() for position in places]
+    return " ".join(word for _, word in sorted(positions))
+
+
+def normalize_openalex_items(items):
+    papers = []
+    for item in items:
+        location = item.get("best_oa_location") or item.get("primary_location") or {}
+        url = location.get("landing_page_url") or item.get("doi") or item.get("id")
+        if not url:
+            continue
+        journal = (location.get("source") or {}).get("display_name") or "OpenAlex"
+        year = item.get("publication_year")
+        papers.append({"title": re.sub(r"<[^>]+>", "", item.get("title") or "Untitled paper"), "url": url,
+                       "snippet": short_snippet(abstract_text(item.get("abstract_inverted_index"))),
+                       "source": f"{journal}, {year}" if year else journal, "displayUrl": url, "type": "paper"})
+    return papers
 
 
 def normalize_youtube_items(items):
@@ -54,7 +82,7 @@ def matching_entry(catalog, topic):
     return next((entry for entry in catalog if any(keyword in lowered for keyword in entry["keywords"])), None)
 
 
-def google_fallback(topic, kind):
+def saved_links(topic, kind):
     entry = matching_entry(FALLBACKS["fallbackCatalog"], topic)
     items = entry["papers" if kind == "paper" else "resources"] if entry else FALLBACKS["genericFallbackItems"][kind]
     return [{**item, "displayUrl": item["url"], "type": kind} for item in items]
@@ -70,24 +98,33 @@ def youtube_fallback(topic):
     return [{**video, "thumbnail": "", "publishedAt": "", "type": "video"} for video in videos]
 
 
-async def fetch_provider(client, url, params, label, fallback_message, warnings):
+async def fetch_provider(client, method, url, label, fallback_message, warnings, **request):
     """A provider failing only adds a warning, and the fallback links fill its place."""
     try:
-        response = await client.get(url, params=params)
+        response = await client.request(method, url, **request)
         if response.is_success:
             return response.json()
         print(f"{label} provider error: status {response.status_code}")
-    except (httpx.HTTPError, ValueError) as error:     # Not the error text: the URL holds the API key.
+    except (httpx.HTTPError, ValueError) as error:     # Not the error text: the URL can hold an API key.
         print(f"{label} provider error: {type(error).__name__}")
     warnings.append(fallback_message)
     return {}
 
 
+async def search_resources(client, topic, tavily_key, warnings):
+    message = "Web search is unavailable, so saved learning links are being shown."
+    if not tavily_key:
+        warnings.append(message)
+        return {}
+    return await fetch_provider(client, "POST", TAVILY_URL, "Resource", message, warnings,
+                                headers={"Authorization": f"Bearer {tavily_key}"},
+                                json={"query": f"{topic} best tutorials documentation guides", "max_results": RESULTS_PER_SEARCH})
+
+
 @router.get("/api/site/health")
 def site_health():
-    google_key, engine_id, youtube_key = provider_keys()
-    return {"ok": True, "service": "manzil-ai", "youtubeConfigured": bool(youtube_key),
-            "googleConfigured": bool(google_key and engine_id)}
+    tavily_key, youtube_key = provider_keys()
+    return {"ok": True, "service": "manzil-ai", "youtubeConfigured": bool(youtube_key), "webSearchConfigured": bool(tavily_key)}
 
 
 @router.get("/api/resources/search")
@@ -96,35 +133,27 @@ async def search(topic: str = ""):
     if not topic:
         return JSONResponse({"message": "Topic is required."}, status_code=400)
 
-    google_key, engine_id, youtube_key = provider_keys()
-    if not (google_key and engine_id and youtube_key):
-        return JSONResponse({"message": "Search is not active yet. Add GOOGLE_SEARCH_API_KEY, GOOGLE_SEARCH_ENGINE_ID, "
-                                        "and YOUTUBE_API_KEY to the .env file."}, status_code=503)
-
-    def google_params(query):
-        return {"key": google_key, "cx": engine_id, "q": query, "num": str(RESULTS_PER_SEARCH), "safe": "active"}
+    tavily_key, youtube_key = provider_keys()
+    if not youtube_key:
+        return JSONResponse({"message": "Search is not active yet. Add YOUTUBE_API_KEY to the .env file."}, status_code=503)
 
     video_params = {"key": youtube_key, "part": "snippet", "q": f"{topic} tutorial", "type": "video",
                     "maxResults": str(RESULTS_PER_SEARCH), "order": "relevance", "safeSearch": "strict", "videoEmbeddable": "true"}
-    resource_query = f"{topic} best tutorials documentation guides"
-    paper_query = f"{topic} research papers site:arxiv.org OR site:scholar.google.com OR filetype:pdf"
+    paper_params = {"search": topic, "per-page": str(RESULTS_PER_SEARCH), "filter": "is_oa:true",
+                    "select": "id,doi,title,publication_year,best_oa_location,primary_location,abstract_inverted_index"}
 
     warnings = []
     # The system's trusted certificates, which the agent's own downloads use too.
     async with httpx.AsyncClient(timeout=TIMEOUT_SECONDS, verify=ssl.create_default_context()) as client:
         resource_data, paper_data, video_data = await asyncio.gather(
-            fetch_provider(client, GOOGLE_URL, google_params(resource_query), "Resource",
-                           "Google resource search is unavailable for this API project, so fallback learning links are being shown.", warnings),
-            fetch_provider(client, GOOGLE_URL, google_params(paper_query), "Paper",
-                           "Google paper search is unavailable for this API project, so fallback paper links are being shown.", warnings),
-            fetch_provider(client, YOUTUBE_URL, video_params, "Video",
-                           "YouTube video search is unavailable right now.", warnings))
+            search_resources(client, topic, tavily_key, warnings),
+            fetch_provider(client, "GET", OPENALEX_URL, "Paper", "Paper search is unavailable, so saved paper links are being shown.",
+                           warnings, params=paper_params),
+            fetch_provider(client, "GET", YOUTUBE_URL, "Video", "YouTube video search is unavailable right now.", warnings,
+                           params=video_params))
 
-    resources = normalize_google_items(resource_data.get("items", []), "resource") or google_fallback(topic, "resource")
-    papers = normalize_google_items(paper_data.get("items", []), "paper") or google_fallback(topic, "paper")
+    resources = normalize_tavily_items(resource_data.get("results", [])) or saved_links(topic, "resource")
+    papers = normalize_openalex_items(paper_data.get("results", [])) or saved_links(topic, "paper")
     videos = normalize_youtube_items(video_data.get("items", [])) or youtube_fallback(topic)
 
-    return {"topic": topic, "resources": resources, "papers": papers, "videos": videos, "providerWarnings": warnings,
-            "meta": {"totalResources": resource_data.get("searchInformation", {}).get("formattedTotalResults") or str(len(resources)),
-                     "totalPapers": paper_data.get("searchInformation", {}).get("formattedTotalResults") or str(len(papers)),
-                     "totalVideos": str(len(video_data["items"])) if isinstance(video_data.get("items"), list) else str(len(videos))}}
+    return {"topic": topic, "resources": resources, "papers": papers, "videos": videos, "providerWarnings": warnings}
