@@ -27,10 +27,9 @@
 
     <nav class="side-group" aria-label="Resource Hub sections">
       <h3 class="eyebrow">Resource Hub</h3>
-      <a class="side-link" href="#search" data-hub-link="search">Learning search</a>
-      <a class="side-link" href="#guide" data-hub-link="guide">Guide</a>
-      <a class="side-link" href="#about" data-hub-link="about">About</a>
+      <a class="side-link" href="/resources" aria-current="true">Learning search</a>
     </nav>
+    <p class="chat-footer">&copy; 2026 Manzil AI. All rights reserved.</p>
   </aside>
 
   <div class="main">
@@ -49,37 +48,28 @@
       </button>
     </header>
 
-    <div class="panel panel-page" id="hub-scroll">
+    <div class="panel panel-page">
       <main class="page page-wide">
-        <section data-hub-section="search">
-          <p class="eyebrow">Learning Search Workspace</p>
-          <h1>Build a focused study board from one topic.</h1>
-          <p class="lede">Search a subject and Manzil AI organizes resources, videos, and deeper reading into a clear learning board.</p>
+        <h1>What do you want to learn?</h1>
 
-          <form class="tool-card" id="topic-search-form">
-            <div>
-              <h2 class="card-title">What do you want to learn today?</h2>
-              <p class="note">Press Enter or search to refresh your board.</p>
-            </div>
-            <label class="sr-only" for="topic-search-input">Learning topic</label>
-            <div class="search-row">
-              <input class="text-input" id="topic-search-input" type="text" placeholder="Example: machine learning, web development, data structures" required>
-              <button class="primary-btn" type="submit" id="topic-search-button">Search</button>
-            </div>
-            <div class="quick-replies" aria-label="Suggested searches">
-              <button class="quick-reply quick-topic" type="button" data-topic="Machine Learning">Machine Learning</button>
-              <button class="quick-reply quick-topic" type="button" data-topic="Web Development">Web Development</button>
-              <button class="quick-reply quick-topic" type="button" data-topic="Data Structures and Algorithms">DSA</button>
-              <button class="quick-reply quick-topic" type="button" data-topic="Cybersecurity">Cybersecurity</button>
-            </div>
-            <p class="feedback" id="topic-search-feedback" aria-live="polite"></p>
-          </form>
+        <form class="tool-card" id="topic-search-form">
+          <label class="sr-only" for="topic-search-input">Topic</label>
+          <div class="search-row">
+            <input class="text-input" id="topic-search-input" type="text" placeholder="Search a topic" required>
+            <button class="primary-btn" type="submit" id="topic-search-button">Search</button>
+          </div>
+          <div class="quick-replies" aria-label="Suggested topics">
+            <button class="quick-reply quick-topic" type="button" data-topic="Machine Learning">Machine Learning</button>
+            <button class="quick-reply quick-topic" type="button" data-topic="Web Development">Web Development</button>
+            <button class="quick-reply quick-topic" type="button" data-topic="Data Structures and Algorithms">DSA</button>
+            <button class="quick-reply quick-topic" type="button" data-topic="Cybersecurity">Cybersecurity</button>
+          </div>
+          <p class="feedback" id="topic-search-feedback" aria-live="polite"></p>
+        </form>
 
+        <div id="results-section" hidden>
           <div class="results-bar">
-            <div>
-              <p class="eyebrow">Result Explorer</p>
-              <h2 class="section-title" id="results-heading">Search results will appear here</h2>
-            </div>
+            <h2 class="section-title" id="results-heading"></h2>
             <div class="quick-replies" role="group" aria-label="Filter results">
               <button class="quick-reply is-active" type="button" data-filter="all" aria-pressed="true">All</button>
               <button class="quick-reply" type="button" data-filter="video" aria-pressed="false">Videos</button>
@@ -87,142 +77,11 @@
               <button class="quick-reply" type="button" data-filter="paper" aria-pressed="false">Papers</button>
             </div>
           </div>
-
-          <div class="empty-state" id="empty-state">
-            <h3>Ask for a topic and build a study lane</h3>
-            <p>Try searching for a subject like JavaScript, operating systems, machine learning, or UI design.</p>
-          </div>
-          <ul class="resource-grid" id="results-grid" hidden></ul>
-        </section>
-
-        <section data-hub-section="guide" hidden>
-          <p class="eyebrow">Learning Home Base</p>
-          <h1>Find your next lesson, tool, and document without losing momentum.</h1>
-          <p class="lede">The Resource Hub is designed as a focused learning companion. Start with this guide, understand what it offers, and jump into a more hands-on search whenever you are ready.</p>
-          <div class="page-actions">
-            <a class="primary-btn" href="#search">Open Search</a>
-            <a class="secondary-btn" href="#about">Explore About</a>
-          </div>
-
-          <div class="mini-stats" aria-label="Quick stats">
-            <div class="scan-stat"><b>3</b><span>Distinct spaces</span></div>
-            <div class="scan-stat"><b>1</b><span>Clear learning flow</span></div>
-            <div class="scan-stat"><b>&infin;</b><span>Resources to explore</span></div>
-          </div>
-
-          <div class="two-up">
-            <section class="tool-card">
-              <p class="note">Interactive guide</p>
-              <h2 class="card-title">Choose what you want from this guide</h2>
-              <div class="choice-row" role="group" aria-label="Guide highlights">
-                <button class="quick-reply is-active" type="button" data-guide-view="discover" aria-pressed="true">Discover</button>
-                <button class="quick-reply" type="button" data-guide-view="plan" aria-pressed="false">Plan</button>
-                <button class="quick-reply" type="button" data-guide-view="launch" aria-pressed="false">Launch</button>
-              </div>
-              <div class="choice-panel" aria-live="polite">
-                <p class="eyebrow" id="guide-kicker">Explore clearly</p>
-                <h3 id="guide-title">See what the Hub offers before diving into the workspace.</h3>
-                <p id="guide-description">The guide introduces the Hub, highlights value quickly, and gives new users a friendly starting point.</p>
-              </div>
-            </section>
-
-            <section class="tool-card">
-              <p class="note">At a glance</p>
-              <h2 class="card-title">Manzil AI Resource Hub</h2>
-              <ul class="plain-list">
-                <li>Introduction-first experience</li>
-                <li>Clear path to About and Search</li>
-                <li>Interactive but lightweight</li>
-              </ul>
-            </section>
-
-            <article class="tool-card">
-              <p class="note">The guide's role</p>
-              <h2 class="card-title">A welcoming first stop</h2>
-              <p class="card-text">This section is focused on introduction, orientation, and confidence. It explains the Hub and helps users understand where to go next instead of overwhelming them with every tool at once.</p>
-            </article>
-
-            <article class="tool-card">
-              <p class="note">Section flow</p>
-              <h2 class="card-title">Move through the Hub with intention</h2>
-              <div class="choice-row">
-                <button class="quick-reply is-active" type="button" data-flow="guide">Guide</button>
-                <button class="quick-reply" type="button" data-flow="about">About</button>
-                <button class="quick-reply" type="button" data-flow="search">Search</button>
-              </div>
-              <p class="card-text" id="flow-copy" aria-live="polite">Start here to understand the Hub and get comfortable with the experience.</p>
-            </article>
-          </div>
-        </section>
-
-        <section data-hub-section="about" hidden>
-          <p class="eyebrow">About the Resource Hub</p>
-          <h1>Built to turn scattered learning into a guided experience.</h1>
-          <p class="lede">This section explains what the Resource Hub is, why it exists, and how each part of it is meant to support focused growth.</p>
-
-          <div class="two-up">
-            <section class="tool-card">
-              <p class="note">Mission snapshot</p>
-              <h2 class="card-title">Focus</h2>
-              <p class="card-text">Built for learners who want direction, not just more links.</p>
-            </section>
-
-            <article class="tool-card">
-              <p class="note">What makes it different</p>
-              <div class="choice-row">
-                <button class="quick-reply is-active" type="button" data-value="clarity">Clarity first</button>
-                <button class="quick-reply" type="button" data-value="guidance">Guided flow</button>
-                <button class="quick-reply" type="button" data-value="action">Action-ready</button>
-              </div>
-              <div class="choice-panel" aria-live="polite">
-                <h3 id="value-title">Clarity first</h3>
-                <p id="value-copy">Every section has a specific role so users are never wondering what the screen is trying to do.</p>
-              </div>
-            </article>
-          </div>
-
-          <article class="tool-card">
-            <div>
-              <p class="note">Interactive timeline</p>
-              <h2 class="card-title">How the story unfolds</h2>
-              <p class="note">Select a phase to update the story panel.</p>
-            </div>
-            <div class="choice-row">
-              <button class="quick-reply is-active" type="button" data-phase="idea">Idea</button>
-              <button class="quick-reply" type="button" data-phase="design">Design</button>
-              <button class="quick-reply" type="button" data-phase="impact">Impact</button>
-            </div>
-            <div class="choice-panel" aria-live="polite">
-              <h3 id="phase-title">A need for a simpler starting point</h3>
-              <p id="phase-copy">The Resource Hub begins with a common problem: learners waste energy jumping between random tutorials, docs, and tool lists.</p>
-            </div>
-          </article>
-
-          <section class="section-gap">
-            <h2 class="section-title">Quick FAQs</h2>
-            <div class="faq-list">
-              <article class="faq-card">
-                <button class="faq-question" type="button" aria-expanded="true">Why is About its own section?</button>
-                <div class="faq-answer"><p>Because the explanation deserves its own space, separate from the guide and the search workspace.</p></div>
-              </article>
-              <article class="faq-card">
-                <button class="faq-question" type="button" aria-expanded="false">What makes the search different?</button>
-                <div class="faq-answer" hidden><p>The search is denser and more action-focused. It is designed for browsing, filtering, and using resources quickly.</p></div>
-              </article>
-              <article class="faq-card">
-                <button class="faq-question" type="button" aria-expanded="false">What makes the guide different?</button>
-                <div class="faq-answer" hidden><p>The guide is more welcoming and directional. It introduces the Hub and helps users choose where to go next.</p></div>
-              </article>
-            </div>
-          </section>
-        </section>
+          <p class="empty-state" id="empty-state" hidden></p>
+          <ul class="resource-grid" id="results-grid"></ul>
+        </div>
       </main>
 
-      <footer class="site-footer">
-        <a class="brand" href="/" aria-label="Manzil AI home"><img class="brand-logo logo-for-light" src="/site/logo-light.png" alt="" width="800" height="222"><img class="brand-logo logo-for-dark" src="/site/logo-dark.png" alt="" width="800" height="221"></a>
-        <div class="footer-links" aria-label="Social links"><a href="#">YouTube</a><a href="#">GitHub</a></div>
-        <p>&copy; 2026 Manzil AI. All rights reserved.</p>
-      </footer>
     </div>
   </div>
 
