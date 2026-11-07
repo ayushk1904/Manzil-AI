@@ -613,8 +613,7 @@ function renderChatHome() {
 }
 
 function cityGuess() {
-  const place = (profile.location || "").split(",")[0].trim();
-  return place || "Pune";
+  return "Mumbai";        // Always Mumbai, whatever town the resume names.
 }
 
 function updateChatChrome() {

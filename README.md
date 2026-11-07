@@ -107,6 +107,17 @@ To show the app to a few people from your own computer, install [Cloudflare Tunn
 
 This is for demos, not for production. The link changes every time and has no uptime guarantee, and it only works while your computer is on with both windows open. Anyone with the link can use the app and upload a resume, so only share it with people you trust. Close both windows to take it offline.
 
+### A public link that stays the same
+
+A free [ngrok](https://ngrok.com) account includes one fixed address, such as `manzil-ai.ngrok-free.app`. To use it:
+
+1. Sign up at [ngrok.com](https://ngrok.com), then install ngrok with `winget install ngrok.ngrok`.
+2. Copy your authtoken from [the dashboard](https://dashboard.ngrok.com/get-started/your-authtoken) and run `ngrok config add-authtoken YOUR_TOKEN` once. Keep the token private.
+3. Claim your free domain under [Domains](https://dashboard.ngrok.com/domains), and add it to `.env` as `NGROK_DOMAIN=your-name.ngrok-free.app`.
+4. Double-click `start-fixed-link.bat`. The app is live at `https://your-name.ngrok-free.app` every time.
+
+The same limits as above apply: it only works while your computer is on with both windows open, and anyone with the link can use it. On the free plan, visitors see an ngrok notice page once before the app.
+
 ## How it's built
 
 `main.py` starts the app. It adds the site's routes from `manzil_site/` in front of the agent's own FastAPI app, which it mounts without changing.
