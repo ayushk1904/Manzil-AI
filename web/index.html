@@ -3,130 +3,436 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Manzil AI | Your AI career agent</title>
-  <meta name="description" content="Manzil AI is your AI career agent. Upload your resume to find real openings, check your fit and write cover letters, and learn new skills in the Resource Hub.">
+  <title>Manzil AI</title>
+  <meta name="description" content="Manzil AI is your AI career guide. Share your resume once to get honest advice, roles that fit, cover letters that sound like you, and a Resource Hub to grow your skills.">
+  <script>try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
   <link rel="icon" type="image/png" href="/site/logo-mark-light.png" media="(prefers-color-scheme: light)">
   <link rel="icon" type="image/png" href="/site/logo-mark-dark.png" media="(prefers-color-scheme: dark)">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="pages.css">
-  <link rel="stylesheet" href="/site/site.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <svg width="0" height="0" class="sprite" aria-hidden="true">
-    <symbol id="i-plane" viewBox="0 0 24 24"><path d="M2 11 22 2l-7 20-3-8zM12 14 22 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
-    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-theme" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-    <symbol id="i-send" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5M7 10l5-5 5 5M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <defs>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></g></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8M8 9h2"/></g></symbol>
+      <symbol id="i-compass" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.8 8.2-2.1 5.5-5.5 2.1 2.1-5.5z"/></g></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7 9l5-5 5 5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-file-up" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3-3 3 3"/></g></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></g></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></g></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.2 2.4 2.4 4.8-4.9"/></g></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></g></symbol>
+      <symbol id="i-mic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></g></symbol>
+      <symbol id="i-rocket" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.9A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></g></symbol>
+      <symbol id="i-route" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/></g></symbol>
+      <symbol id="i-briefcase" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M16 20V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v15"/></g></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></g></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="6" width="14" height="12" rx="2.5"/><path d="m16.5 10 5-3v10l-5-3z"/></g></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-paper" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+      <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.9 4.2A10 10 0 0 1 12 4c6.5 0 10 8 10 8a17 17 0 0 1-2.2 3.2M6.6 6.6A17 17 0 0 0 2 12s3.5 8 10 8a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2M2 2l20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></g></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
   </svg>
 
   <input class="sr-only" id="resume-file" type="file" accept="application/pdf,.pdf" tabindex="-1" aria-label="Choose your resume PDF">
 
-  <div class="scrim" id="scrim" hidden></div>
-
-  <aside class="cockpit" id="cockpit" aria-label="Your profile and jobs">
-    <a class="brand" href="/">
-      <img class="brand-logo logo-for-light" src="/site/logo-light.png" alt="Manzil AI" width="800" height="222">
-      <img class="brand-logo logo-for-dark" src="/site/logo-dark.png" alt="Manzil AI" width="800" height="221">
-    </a>
-
-    <div id="profile-box" hidden>
-      <section class="pilot">
-        <div class="avatar" id="avatar" aria-hidden="true"></div>
-        <div class="pilot-text">
-          <h2 id="pilot-name"></h2>
-          <p id="pilot-place"></p>
-        </div>
-      </section>
-      <div class="resume-actions">
-        <a class="text-link" href="/api/resume" target="_blank" rel="noopener">View resume</a>
-        <button class="text-link link-btn" id="replace-resume" type="button">Upload new PDF</button>
-      </div>
-      <details class="skills">
-        <summary>Your skills</summary>
-        <div id="skills"></div>
-      </details>
-    </div>
-
-    <section id="letters-section" hidden>
-      <h3 class="eyebrow">Saved cover letters</h3>
-      <ul class="letters" id="letters"></ul>
+  <div class="banners">
+    <section class="banner banner-offline" id="offline" role="alert" hidden>
+      <b>Manzil AI isn't running.</b> Start it with <code>python main.py</code>. This page connects by itself as soon as it's up.
     </section>
+    <p class="banner" id="notice" role="status" hidden></p>
+  </div>
 
-    <button class="text-link link-btn delete-data" id="delete-data" type="button" hidden>Delete my data</button>
-    <p class="sidebar-note" id="sidebar-note">Your profile will appear here once you upload your resume.</p>
-    <p class="chat-footer">&copy; 2026 Manzil AI. All rights reserved.</p>
-  </aside>
-
-  <div class="main">
-    <header class="topbar">
-      <button class="icon-btn only-small" id="menu" type="button" aria-label="Show profile and jobs">
-        <svg><use href="#i-menu"/></svg>
-      </button>
-      <a class="brand topbar-brand" href="/" aria-label="Manzil AI home"><img class="brand-logo logo-for-light" src="/site/logo-light.png" alt="" width="800" height="222"><img class="brand-logo logo-for-dark" src="/site/logo-dark.png" alt="" width="800" height="221"></a>
-      <nav class="tabs" id="tabs" aria-label="Sections">
-        <button class="tab" type="button" data-tab="chat">Chat</button>
-        <button class="tab" type="button" data-tab="match">Job Match</button>
-        <a class="tab-link" href="/resources">Resource Hub</a>
-      </nav>
-      <button class="ghost-btn" id="new-chat" type="button">New chat</button>
-      <button class="icon-btn" id="theme" type="button" aria-label="Switch light or dark theme">
-        <svg><use href="#i-theme"/></svg>
-      </button>
+  <!-- ================= Landing ================= -->
+  <div class="landing" id="landing" hidden>
+    <header class="landing-top">
+      <a class="brand" href="/" aria-label="Manzil AI home">
+        <img class="logo-light" src="/site/logo-light.png" alt="Manzil AI" width="800" height="222">
+        <img class="logo-dark" src="/site/logo-dark.png" alt="Manzil AI" width="800" height="221">
+      </a>
+      <button class="pill-btn" id="landing-theme" type="button">Dark mode</button>
     </header>
 
-    <section class="offline" id="offline" role="alert" hidden>
-      <h2>Manzil AI isn't running</h2>
-      <p>Start the server with <code>python main.py</code>. This page connects as soon as it's running.</p>
-    </section>
-    <p class="notice" id="notice" role="status" hidden></p>
+    <main class="landing-main">
+      <section class="hero">
+        <p class="tag"><span class="tag-dot" aria-hidden="true"></span>Manzil means “destination”</p>
+        <h1>Every career is a road. <span>Let's walk yours.</span></h1>
+        <p class="hero-lede">Share your resume once. Manzil reads your real experience and guides you — honest advice, roles that fit, and letters that sound like you.</p>
 
-    <div class="panel panel-chat" id="panel-chat">
-      <main class="chat" id="chat">
-        <section class="hello" id="hello">
-          <p class="eyebrow">Welcome to Manzil AI</p>
-          <h1>Your AI career copilot</h1>
-          <p class="lede">Upload your resume, tell me the role you want and where, and I'll find real openings that fit, including at startups.</p>
-          <button class="dropzone" id="dropzone" type="button">
-            <svg><use href="#i-upload"/></svg>
-            <span class="dropzone-text">
-              <b>Upload your resume to start</b>
-              <span>Choose a PDF, or drop it here. The conversation starts right after.</span>
-            </span>
-          </button>
-          <p class="error-text" id="upload-error" role="alert" hidden></p>
-          <button class="continue-btn" id="continue-resume" type="button" hidden></button>
-          <p class="hub-hint">Want to learn a new skill first? Open the <a href="/resources">Resource Hub</a>.</p>
-        </section>
-        <div class="thread" id="thread" aria-live="polite"></div>
-      </main>
-      <form class="composer" id="composer">
-        <label class="sr-only" for="input">Message Manzil AI</label>
-        <div class="composer-box">
-          <textarea id="input" rows="1" maxlength="4000" placeholder="Ask about a job or your skills…"></textarea>
-          <button class="send" id="send" type="submit" aria-label="Send message" disabled>
-            <svg><use href="#i-send"/></svg>
-          </button>
+        <div class="road">
+          <svg class="road-line" viewBox="0 0 600 60" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 44 C 60 38, 110 30, 160 40 S 260 52, 320 34 S 430 22, 480 34 S 570 48, 600 46"/>
+          </svg>
+          <ol class="road-stops">
+            <li><span class="road-icon"><svg><use href="#i-chat"/></svg></span>Talk it through</li>
+            <li><span class="road-icon"><svg><use href="#i-target"/></svg></span>Find your fit</li>
+            <li><span class="road-icon"><svg><use href="#i-file"/></svg></span>Write the letter</li>
+            <li><span class="road-icon"><svg><use href="#i-compass"/></svg></span>Grow your skills</li>
+          </ol>
         </div>
-        <p class="hint">Your resume is private to you. Delete it any time from the sidebar.</p>
-      </form>
-    </div>
+      </section>
 
-    <div class="panel" id="panel-match" hidden>
-      <div class="page">
-        <h1>Job Match</h1>
-        <p class="lede">Found a job you like? Paste the post to see which skills you already have and which to build.</p>
-        <form class="tool-card" id="scan-form">
-          <label for="scan-input">Job post</label>
-          <textarea id="scan-input" rows="6" maxlength="2000" placeholder="Paste the job description here…"></textarea>
-          <button class="primary-btn" id="scan-go" type="submit">Check my match</button>
-        </form>
-        <section class="tool-card" id="scan-result" aria-live="polite" hidden></section>
+      <section class="upload-card" aria-labelledby="upload-title">
+        <ol class="steps" id="steps" aria-label="Progress">
+          <li class="step"><span class="step-bar"></span>Upload</li>
+          <li class="step"><span class="step-bar"></span>Reading</li>
+          <li class="step"><span class="step-bar"></span>Ready</li>
+        </ol>
+
+        <div class="card-stage" id="stage-upload">
+          <h2 id="upload-title">First, your resume</h2>
+          <p class="muted">A PDF is perfect. It takes about ten seconds.</p>
+          <button class="dropzone" id="dropzone" type="button">
+            <span class="dropzone-icon"><svg><use href="#i-file-up"/></svg></span>
+            <b id="dropzone-title">Drop your PDF here</b>
+            <span class="muted">or tap to browse</span>
+          </button>
+          <p class="form-error" id="landing-error" role="alert" hidden></p>
+          <button class="link-btn" id="skip" type="button">Skip for now — just explore</button>
+        </div>
+
+        <div class="card-stage stage-ready" id="stage-ready" hidden>
+          <span class="ready-icon"><svg><use href="#i-check-circle"/></svg></span>
+          <h2 id="ready-title">You're all set</h2>
+          <p class="ready-file" id="ready-file"></p>
+          <button class="primary-btn wide" id="start" type="button">Start talking with Manzil <svg><use href="#i-arrow"/></svg></button>
+          <button class="link-btn" id="different-resume" type="button">Use a different resume</button>
+        </div>
+
+        <p class="privacy-note"><svg><use href="#i-lock"/></svg><span>Your resume stays private. It's only used to guide you, never shared or sold — and you can delete it anytime.</span></p>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= App ================= -->
+  <div class="app" id="app" hidden>
+    <div class="scrim" id="scrim" hidden></div>
+
+    <aside class="sidebar" id="sidebar" aria-label="Main">
+      <div class="sidebar-head">
+        <a class="brand" href="/" id="home-link" aria-label="Manzil AI home">
+          <img class="logo-light" src="/site/logo-light.png" alt="Manzil AI" width="800" height="222">
+          <img class="logo-dark" src="/site/logo-dark.png" alt="Manzil AI" width="800" height="221">
+        </a>
+        <button class="icon-btn only-small" id="close-menu" type="button" aria-label="Close menu"><svg><use href="#i-close"/></svg></button>
       </div>
+      <p class="tagline">Your road to the right role</p>
+
+      <nav class="nav" aria-label="Sections">
+        <button class="nav-item" type="button" data-view="chat">
+          <span class="nav-icon"><svg><use href="#i-chat"/></svg></span>
+          <span class="nav-text"><b>Chat</b><small>Ask your guide</small></span>
+        </button>
+        <button class="nav-item" type="button" data-view="match">
+          <span class="nav-icon"><svg><use href="#i-target"/></svg></span>
+          <span class="nav-text"><b>Job Match</b><small>Check your fit</small></span>
+        </button>
+        <button class="nav-item" type="button" data-view="letters">
+          <span class="nav-icon"><svg><use href="#i-file"/></svg></span>
+          <span class="nav-text"><b>Letters</b><small>Cover letters</small></span>
+        </button>
+        <button class="nav-item" type="button" data-view="resources">
+          <span class="nav-icon"><svg><use href="#i-compass"/></svg></span>
+          <span class="nav-text"><b>Resource Hub</b><small>Learn skills</small></span>
+        </button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="resume-card" id="resume-card">
+          <button class="resume-card-main" id="resume-toggle" type="button" aria-expanded="false" aria-controls="resume-menu">
+            <span class="resume-status"><svg><use href="#i-upload"/></svg><b id="resume-status">Resume loaded</b></span>
+            <span class="resume-name" id="resume-name"></span>
+          </button>
+          <div class="resume-menu" id="resume-menu" hidden>
+            <a class="menu-item" href="/api/resume" target="_blank" rel="noopener"><svg><use href="#i-eye"/></svg>View resume</a>
+            <button class="menu-item" id="replace-resume" type="button"><svg><use href="#i-upload"/></svg>Upload a new PDF</button>
+          </div>
+        </div>
+        <div class="sidebar-row">
+          <button class="privacy-link" id="privacy-open" type="button"><svg><use href="#i-shield"/></svg>Privacy</button>
+          <button class="round-btn theme-btn" id="theme-toggle" type="button" aria-label="Switch to dark mode"><svg><use href="#i-moon"/></svg></button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="mobile-bar">
+        <button class="icon-btn" id="open-menu" type="button" aria-label="Open menu"><svg><use href="#i-menu"/></svg></button>
+        <a class="brand" href="/" aria-label="Manzil AI home">
+          <img class="logo-light" src="/site/logo-light.png" alt="" width="800" height="222">
+          <img class="logo-dark" src="/site/logo-dark.png" alt="" width="800" height="221">
+        </a>
+        <button class="icon-btn theme-btn" id="theme-toggle-mobile" type="button" aria-label="Switch to dark mode"><svg><use href="#i-moon"/></svg></button>
+      </header>
+
+      <!-- Chat -->
+      <section class="view view-chat" id="view-chat" aria-label="Chat">
+        <div class="chat-scroll" id="chat-scroll">
+          <div class="chat-toolbar" id="chat-toolbar" hidden>
+            <button class="pill-btn small" id="new-chat" type="button"><svg><use href="#i-plus"/></svg>New chat</button>
+          </div>
+
+          <div class="chat-home" id="chat-home">
+            <span class="home-mark" aria-hidden="true"><span></span></span>
+            <h1>Where are you heading?</h1>
+            <p class="home-sub" id="home-sub"></p>
+            <div class="suggestions" id="suggestions">
+              <button class="suggestion" type="button" data-suggestion="advice">
+                <span class="suggestion-icon"><svg><use href="#i-route"/></svg></span>
+                <span><b>Career advice</b><span class="quote" id="quote-advice">“What roles suit my background best?”</span></span>
+              </button>
+              <button class="suggestion" type="button" data-suggestion="interview">
+                <span class="suggestion-icon"><svg><use href="#i-mic"/></svg></span>
+                <span><b>Practice interview</b><span class="quote" id="quote-interview"></span></span>
+              </button>
+              <button class="suggestion" type="button" data-suggestion="gaps">
+                <span class="suggestion-icon"><svg><use href="#i-rocket"/></svg></span>
+                <span><b>Skill gaps</b><span class="quote" id="quote-gaps"></span></span>
+              </button>
+              <button class="suggestion" type="button" data-suggestion="jobs">
+                <span class="suggestion-icon"><svg><use href="#i-briefcase"/></svg></span>
+                <span><b>Find jobs</b><span class="quote" id="quote-jobs"></span></span>
+              </button>
+            </div>
+            <div class="no-resume" id="no-resume" hidden>
+              <button class="primary-btn" id="chat-upload" type="button"><svg><use href="#i-upload"/></svg>Upload your resume</button>
+              <p class="muted small">Prefer to look around first? The <button class="inline-link" type="button" data-go="resources">Resource Hub</button> works without one.</p>
+            </div>
+          </div>
+
+          <div class="thread" id="thread" aria-live="polite"></div>
+        </div>
+
+        <form class="composer" id="composer">
+          <label class="sr-only" for="input">Message Manzil</label>
+          <div class="composer-box">
+            <textarea id="input" rows="1" maxlength="4000"></textarea>
+            <button class="send" id="send" type="submit" aria-label="Send message" disabled><svg><use href="#i-send"/></svg></button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Job Match -->
+      <section class="view" id="view-match" aria-label="Job Match" hidden>
+        <div class="page">
+          <p class="eyebrow">Job Match</p>
+          <h1>How close are you?</h1>
+          <p class="lede">Paste any job post. We'll compare it with your resume and show what you already bring — and what to build next.</p>
+
+          <div class="match-grid">
+            <form class="card match-form" id="scan-form">
+              <label class="field-label" for="scan-input">Job post</label>
+              <textarea class="field" id="scan-input" maxlength="2000" placeholder="Paste the full job description here…"></textarea>
+              <p class="counter" id="scan-count">0 / 2000</p>
+              <button class="primary-btn wide" id="scan-go" type="submit">Check my fit</button>
+              <button class="link-btn" id="sample-post" type="button">Try a sample post</button>
+              <p class="muted small center" id="scan-needs-resume" hidden>Upload your resume first, from the card in the sidebar.</p>
+            </form>
+
+            <section class="card match-result" id="scan-result" aria-live="polite">
+              <div class="ring" id="ring">
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="ring-track" cx="60" cy="60" r="52"/>
+                  <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="52"/>
+                </svg>
+                <span class="ring-value" id="ring-value">–</span>
+              </div>
+              <p class="ring-caption" id="ring-caption">Your match score will appear here.</p>
+              <div class="match-details" id="match-details" hidden></div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- Letters -->
+      <section class="view" id="view-letters" aria-label="Letters" hidden>
+        <div class="page">
+          <p class="eyebrow">Letters</p>
+          <h1>Your words, polished</h1>
+          <p class="lede">Here's a draft based on your resume. Change anything — then approve to save it, or reject to start over.</p>
+
+          <div class="letters-grid">
+            <section class="card letter-card">
+              <form class="letter-form" id="letter-form">
+                <div class="field-pair">
+                  <label class="field-wrap"><span class="field-label">Company</span><input class="field pill" id="letter-company" maxlength="80" placeholder="e.g. Kitekite Labs" autocomplete="off"></label>
+                  <label class="field-wrap"><span class="field-label">Role</span><input class="field pill" id="letter-role" maxlength="80" placeholder="e.g. Junior React Developer" autocomplete="off"></label>
+                </div>
+                <details class="post-details" id="letter-post-box">
+                  <summary>Add the job post <span class="muted">(optional, makes the letter sharper)</span></summary>
+                  <textarea class="field" id="letter-details" maxlength="1800" rows="5" placeholder="Paste the job description here…"></textarea>
+                </details>
+                <div class="letter-form-foot">
+                  <p class="form-error" id="letter-error" role="alert" hidden></p>
+                  <button class="primary-btn" id="letter-write" type="submit">Write my letter</button>
+                </div>
+              </form>
+
+              <div class="letter-body" id="letter-body">
+                <div class="letter-empty" id="letter-empty">
+                  <span class="empty-icon"><svg><use href="#i-file"/></svg></span>
+                  <p>Your draft will appear here.</p>
+                  <p class="muted small">Fill in the company and role, or tap “Cover letter” on any job card in Chat.</p>
+                </div>
+                <div class="letter-writing" id="letter-writing" hidden>
+                  <span class="line"></span><span class="line"></span><span class="line short"></span>
+                  <span class="line"></span><span class="line"></span><span class="line short"></span>
+                  <p class="muted small">Writing from your resume…</p>
+                </div>
+                <div class="letter-draft" id="letter-draft" hidden>
+                  <p class="letter-label" id="letter-label"></p>
+                  <textarea class="letter-editor" id="letter-editor" aria-label="Your cover letter. You can edit it."></textarea>
+                  <p class="letter-warning" id="letter-warning"></p>
+                  <div class="letter-actions" id="letter-actions"></div>
+                </div>
+              </div>
+            </section>
+
+            <aside class="card saved-card" aria-labelledby="saved-title">
+              <h2 id="saved-title">Saved letters</h2>
+              <label class="search-field">
+                <svg><use href="#i-search"/></svg>
+                <span class="sr-only">Search saved letters</span>
+                <input id="saved-search" type="search" placeholder="Search by company or role" autocomplete="off">
+              </label>
+              <ul class="saved-list" id="saved-list"></ul>
+              <p class="saved-empty" id="saved-empty">Approved letters will live here.</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resource Hub -->
+      <section class="view" id="view-resources" aria-label="Resource Hub" hidden>
+        <div class="page page-wide">
+          <p class="eyebrow">Resource Hub</p>
+          <h1>What do you want to learn?</h1>
+          <p class="lede">One search, one board — reading, videos and research together.</p>
+
+          <form class="hub-search" id="hub-form" role="search">
+            <svg><use href="#i-search"/></svg>
+            <label class="sr-only" for="hub-input">Topic</label>
+            <input id="hub-input" type="text" maxlength="120" placeholder="Try “TypeScript” or “interview confidence”" autocomplete="off">
+            <button class="primary-btn" id="hub-go" type="submit">Search</button>
+          </form>
+          <div class="chips" aria-label="Suggested topics">
+            <button class="chip" type="button" data-topic="TypeScript">TypeScript</button>
+            <button class="chip" type="button" data-topic="Power BI">Power BI</button>
+            <button class="chip" type="button" data-topic="System design">System design</button>
+            <button class="chip" type="button" data-topic="Public speaking">Public speaking</button>
+            <button class="chip" type="button" data-topic="Python">Python</button>
+          </div>
+          <p class="hub-feedback" id="hub-feedback" aria-live="polite"></p>
+
+          <div class="hub-empty" id="hub-empty">
+            <svg><use href="#i-search"/></svg>
+            <p>Search a topic to fill your board.</p>
+          </div>
+
+          <div id="hub-results" hidden>
+            <div class="hub-bar">
+              <h2 id="hub-heading"></h2>
+              <div class="filters" role="group" aria-label="Filter results">
+                <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+                <button class="filter" type="button" data-filter="video" aria-pressed="false">Videos</button>
+                <button class="filter" type="button" data-filter="resource" aria-pressed="false">Reading</button>
+                <button class="filter" type="button" data-filter="paper" aria-pressed="false">Research</button>
+              </div>
+            </div>
+            <p class="hub-none" id="hub-none" hidden></p>
+            <ul class="hub-grid" id="hub-grid"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Privacy -->
+      <section class="view" id="view-privacy" aria-label="Privacy" hidden>
+        <div class="page">
+          <p class="eyebrow">Privacy</p>
+          <h1>Your data, your call</h1>
+
+          <div class="promise-grid">
+            <article class="card promise">
+              <svg><use href="#i-lock"/></svg>
+              <h2>Private by default</h2>
+              <p>Your resume is used only to guide you.</p>
+            </article>
+            <article class="card promise">
+              <svg><use href="#i-eye-off"/></svg>
+              <h2>Never shared or sold</h2>
+              <p>No employers or advertisers see your data.</p>
+            </article>
+            <article class="card promise">
+              <svg><use href="#i-shield"/></svg>
+              <h2>You're in control</h2>
+              <p>Delete everything whenever you want.</p>
+            </article>
+          </div>
+
+          <section class="card keep-card" aria-labelledby="keep-title">
+            <h2 id="keep-title">What we keep</h2>
+            <dl class="keep-list">
+              <div class="keep-row"><dt>Resume</dt><dd id="keep-resume">None</dd></div>
+              <div class="keep-row"><dt>Saved letters</dt><dd id="keep-letters">0</dd></div>
+            </dl>
+            <div class="delete-zone" id="delete-zone">
+              <button class="danger-btn" id="delete-data" type="button"><svg><use href="#i-trash"/></svg>Delete my data</button>
+            </div>
+            <div class="delete-confirm" id="delete-confirm" hidden>
+              <p><b>Delete everything?</b> This removes your resume, saved letters and chats. It can't be undone.</p>
+              <div class="delete-confirm-actions">
+                <button class="danger-btn" id="delete-yes" type="button"><svg><use href="#i-trash"/></svg>Yes, delete it all</button>
+                <button class="secondary-btn" id="delete-cancel" type="button">Keep my data</button>
+              </div>
+            </div>
+            <p class="muted small keep-note">Data you don't use for 30 days is removed automatically. Job searches send only the role and place you choose, never your resume.</p>
+          </section>
+        </div>
+      </section>
     </div>
   </div>
 
-  <script src="app.js"></script>
-  <script src="/site/chat-nav.js"></script>
+  <!-- Job description -->
+  <dialog class="brief" id="brief-dialog" aria-labelledby="brief-title">
+    <header class="brief-head">
+      <div class="job-logo" id="brief-logo" aria-hidden="true"></div>
+      <div class="brief-heading">
+        <p class="eyebrow">About this job</p>
+        <h2 id="brief-title"></h2>
+        <p class="muted" id="brief-company"></p>
+      </div>
+      <button class="icon-btn" id="brief-close" type="button" aria-label="Close"><svg><use href="#i-close"/></svg></button>
+    </header>
+    <div class="brief-facts" id="brief-facts"></div>
+    <div class="brief-body answer-like" id="brief-body" aria-live="polite"></div>
+    <p class="brief-note muted small">Written in plain words from the job post itself. Check the full post before you apply.</p>
+    <footer class="brief-actions">
+      <a class="job-btn" id="brief-post" href="#" target="_blank" rel="noopener noreferrer">Read the full post<svg><use href="#i-external"/></svg></a>
+      <span class="spacer"></span>
+      <button class="secondary-btn" id="brief-letter" type="button">Write a cover letter</button>
+      <a class="primary-btn" id="brief-apply" href="#" target="_blank" rel="noopener noreferrer">Apply<svg><use href="#i-external"/></svg></a>
+    </footer>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="/app.js"></script>
 </body>
 </html>

@@ -17,7 +17,10 @@ def user_folder(config: RunnableConfig) -> Path:
 
 
 def read_jobs(config: RunnableConfig) -> list:
-    return json.loads((user_folder(config) / "jobs.json").read_text(encoding="utf-8"))
+    path = user_folder(config) / "jobs.json"
+    if not path.exists():           # No job search yet. An empty list, not a crash, so the agent can say so.
+        return []
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 @tool
@@ -41,6 +44,54 @@ def read_resume(config: RunnableConfig) -> str:
     return (user_folder(config) / "resume.txt").read_text(encoding="utf-8")
 
 
+MAX_PLACES = 4            # One request can name a few cities, not a whole country's worth.
+JOBS_PER_PLACE = 6        # Cards shown for each place.
+JOBS_TOLD_TO_MODEL = 4    # Enough for the model to pick the best one, without filling its memory.
+
+
+def _opening(job) -> str:
+    from job_search import verdict
+    return (f"- {job['title']} at {job['company']}, {job['location'] or 'location not given'}. "
+            f"Pay: {job.get('pay') or 'not published'}. On the resume: {', '.join(job['have']) or 'none'}. "
+            f"Missing: {', '.join(job['missing']) or 'none'}. Verdict: {verdict(job)}.")
+
+
+@tool(response_format="content_and_artifact")
+def search_jobs(role: str, locations: list[str], config: RunnableConfig) -> tuple[str, list]:
+    """Search real, current job openings and show them to the user as cards.
+
+    role: one job title, such as "AI Engineer" or "Data Analyst".
+    locations: the places to search, one per item, such as ["Mumbai", "Pune"]. Use ["Remote"] for remote
+    work and [] to search anywhere. For two different roles, call this tool once per role.
+    """
+    import job_search                       # Here, so the lesson files above still run on their own.
+    folder = user_folder(config)
+    resume = (folder / "resume.txt").read_text(encoding="utf-8")
+    role = (role or "").strip()[:80]
+    if isinstance(locations, str):          # The model sometimes sends "Mumbai, Pune" as one string.
+        locations = locations.split(",")
+    places = list(dict.fromkeys(p.strip()[:80] for p in locations or [] if p and p.strip()))[:MAX_PLACES] or [""]
+    if not role:
+        return "No role was given. Call search_jobs again with a job title.", []
+
+    searches, report = [], []
+    for place in places:
+        where = place or "anywhere"
+        try:
+            found = job_search.find_openings(folder, resume, role, place, JOBS_PER_PLACE)
+        except Exception as error:          # One place failing shouldn't lose the others.
+            print(f"search_jobs error: {error!r}")
+            report.append(f"{where}: the search failed, so say you couldn't search there right now.")
+            continue
+        searches.append({"role": role, "location": place, **found})
+        if not found["jobs"]:
+            report.append(f"{where}: no {role} openings found.")
+            continue
+        report.append(f"{where}: {found['total']} {role} openings, best matches first:")
+        report.extend(_opening(job) for job in found["jobs"][:JOBS_TOLD_TO_MODEL])
+    return "\n".join(report), searches
+
+
 @tool
 def save_application(job_id: int, cover_letter: str, config: RunnableConfig) -> str:
     """Save the cover letter for a job. Only use this when the user asks to save."""
@@ -49,7 +100,7 @@ def save_application(job_id: int, cover_letter: str, config: RunnableConfig) -> 
     return f"Saved to {filename}"
 
 
-all_tools = [list_jobs, get_job, read_resume, save_application]
+all_tools = [list_jobs, get_job, read_resume, search_jobs, save_application]
 model = ChatOllama(model="qwen2.5:7b", temperature=0, num_ctx=8192).bind_tools(all_tools)  # Room for a whole resume.
 NEEDS_APPROVAL = {"save_application"}
 
