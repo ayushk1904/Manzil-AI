@@ -3,89 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Resource Hub | Manzil AI</title>
-  <meta name="description" content="Search any topic and get learning resources, videos and papers in one study board, in the Manzil AI Resource Hub.">
-  <link rel="icon" type="image/png" href="/site/logo-mark-light.png" media="(prefers-color-scheme: light)">
-  <link rel="icon" type="image/png" href="/site/logo-mark-dark.png" media="(prefers-color-scheme: dark)">
-  <link rel="stylesheet" href="/style.css">
-  <link rel="stylesheet" href="/pages.css">
-  <link rel="stylesheet" href="/site/site.css">
+  <title>Resource Hub · Manzil AI</title>
+  <meta http-equiv="refresh" content="0; url=/#resources">
+  <script>location.replace("/#resources");</script>
 </head>
 <body>
-  <svg width="0" height="0" class="sprite" aria-hidden="true">
-    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-theme" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-  </svg>
-
-  <div class="scrim" id="scrim" hidden></div>
-
-  <aside class="cockpit" id="cockpit" aria-label="Resource Hub sections">
-    <a class="brand" href="/">
-      <img class="brand-logo logo-for-light" src="/site/logo-light.png" alt="Manzil AI" width="800" height="222">
-      <img class="brand-logo logo-for-dark" src="/site/logo-dark.png" alt="Manzil AI" width="800" height="221">
-    </a>
-
-    <nav class="side-group" aria-label="Resource Hub sections">
-      <h3 class="eyebrow">Resource Hub</h3>
-      <a class="side-link" href="/resources" aria-current="true">Learning search</a>
-    </nav>
-    <p class="chat-footer">&copy; 2026 Manzil AI. All rights reserved.</p>
-  </aside>
-
-  <div class="main">
-    <header class="topbar">
-      <button class="icon-btn only-small" id="menu" type="button" aria-label="Show Resource Hub sections">
-        <svg><use href="#i-menu"/></svg>
-      </button>
-      <a class="brand topbar-brand" href="/" aria-label="Manzil AI home"><img class="brand-logo logo-for-light" src="/site/logo-light.png" alt="" width="800" height="222"><img class="brand-logo logo-for-dark" src="/site/logo-dark.png" alt="" width="800" height="221"></a>
-      <nav class="tabs" aria-label="Main">
-        <a class="tab-link" href="/">Chat</a>
-        <a class="tab-link" href="/#match">Job Match</a>
-        <a class="tab-link" href="/resources" aria-current="page">Resource Hub</a>
-      </nav>
-      <button class="icon-btn" id="theme" type="button" aria-label="Switch light or dark theme">
-        <svg><use href="#i-theme"/></svg>
-      </button>
-    </header>
-
-    <div class="panel panel-page">
-      <main class="page page-wide">
-        <h1>What do you want to learn?</h1>
-
-        <form class="tool-card" id="topic-search-form">
-          <label class="sr-only" for="topic-search-input">Topic</label>
-          <div class="search-row">
-            <input class="text-input" id="topic-search-input" type="text" placeholder="Search a topic" required>
-            <button class="primary-btn" type="submit" id="topic-search-button">Search</button>
-          </div>
-          <div class="quick-replies" aria-label="Suggested topics">
-            <button class="quick-reply quick-topic" type="button" data-topic="Machine Learning">Machine Learning</button>
-            <button class="quick-reply quick-topic" type="button" data-topic="Web Development">Web Development</button>
-            <button class="quick-reply quick-topic" type="button" data-topic="Data Structures and Algorithms">DSA</button>
-            <button class="quick-reply quick-topic" type="button" data-topic="Cybersecurity">Cybersecurity</button>
-          </div>
-          <p class="feedback" id="topic-search-feedback" aria-live="polite"></p>
-        </form>
-
-        <div id="results-section" hidden>
-          <div class="results-bar">
-            <h2 class="section-title" id="results-heading"></h2>
-            <div class="quick-replies" role="group" aria-label="Filter results">
-              <button class="quick-reply is-active" type="button" data-filter="all" aria-pressed="true">All</button>
-              <button class="quick-reply" type="button" data-filter="video" aria-pressed="false">Videos</button>
-              <button class="quick-reply" type="button" data-filter="resource" aria-pressed="false">Resources</button>
-              <button class="quick-reply" type="button" data-filter="paper" aria-pressed="false">Papers</button>
-            </div>
-          </div>
-          <p class="empty-state" id="empty-state" hidden></p>
-          <ul class="resource-grid" id="results-grid"></ul>
-        </div>
-      </main>
-
-    </div>
-  </div>
-
-  <script src="/site/shell.js"></script>
-  <script src="/site/resources.js"></script>
+  <p>The Resource Hub has moved. <a href="/#resources">Open it here</a>.</p>
 </body>
 </html>
