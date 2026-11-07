@@ -440,6 +440,7 @@ function chatLocked() {
 function placeholderText() {
   if (!profile.has_resume) return "Upload your resume to start chatting";
   if (waitingForAnswer) return "Choose Save or Not yet above to continue…";
+  if (matchMedia("(max-width: 560px)").matches) return "Ask Manzil anything…";
   return "Ask about roles, interviews, or try “Find React jobs in Bengaluru”";
 }
 
@@ -1085,6 +1086,7 @@ function resizeInput() {
   const input = $("input");
   input.style.height = "auto";
   input.style.height = `${Math.min(input.scrollHeight, 180)}px`;
+  input.style.overflowY = input.scrollHeight > 180 ? "auto" : "hidden";
   refreshControls();
 }
 
@@ -1633,6 +1635,7 @@ function start() {
   // Chat
   $("composer").addEventListener("submit", (e) => { e.preventDefault(); submitComposer(); });
   $("input").addEventListener("input", resizeInput);
+  matchMedia("(max-width: 560px)").addEventListener("change", refreshControls);
   $("input").addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
       e.preventDefault();

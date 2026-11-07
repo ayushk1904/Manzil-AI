@@ -102,6 +102,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; }
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: var(--font);
@@ -116,6 +117,21 @@ h1, h2, h3, h4, h5 { font-family: var(--display); color: var(--text); margin: 0;
 p { margin: 0; }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
+/* Touch: no blue flash, no double-tap zoom delay, no text selection on buttons. */
+button, a, label, summary, [role="button"] {
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+button { -webkit-user-select: none; user-select: none; }
+:focus:not(:focus-visible) { outline: none; }
+/* Gentle press feedback on touch screens instead of the browser highlight. */
+@media (hover: none) {
+  button:not(:disabled), a.job-btn, a.primary-btn, a.secondary-btn {
+    transition: transform 0.12s ease, opacity 0.12s ease, background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+  button:not(:disabled):active, a.job-btn:active, a.primary-btn:active, a.secondary-btn:active {
+    transform: scale(0.96); opacity: 0.85;
+  }
+}
 button:disabled { cursor: not-allowed; }
 a { color: var(--teal); }
 svg { width: 20px; height: 20px; flex: none; }
@@ -506,18 +522,18 @@ svg { width: 20px; height: 20px; flex: none; }
 .clearance-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 
 /* Composer */
-.composer { padding: 14px 40px 22px; border-top: 1px solid var(--border); background: var(--bg); }
+.composer { padding: 14px 40px 22px; padding-bottom: calc(22px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: var(--bg); }
 .composer-box {
-  max-width: 920px; margin: 0 auto; display: flex; align-items: flex-end; gap: 10px;
+  max-width: 920px; margin: 0 auto; display: flex; align-items: flex-end; gap: 10px; min-width: 0;
   padding: 8px 8px 8px 22px; border-radius: 30px; border: 1.5px solid var(--teal);
   background: var(--surface);
 }
 .composer-box:has(textarea:disabled) { border-color: var(--border-strong); }
 .composer textarea {
-  flex: 1; min-height: 44px; max-height: 180px; padding: 10px 0; border: 0; outline: 0; resize: none;
-  background: transparent; font-size: 17px; line-height: 1.45;
+  flex: 1; min-width: 0; min-height: 48px; max-height: 180px; padding: 12px 0; border: 0; outline: 0; resize: none;
+  background: transparent; font-size: 17px; line-height: 24px; overflow-y: hidden; scrollbar-width: thin;
 }
-.composer textarea::placeholder { color: var(--muted); }
+.composer textarea::placeholder { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .send {
   display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 0; flex: none;
   background: var(--teal); color: var(--on-teal);
@@ -740,7 +756,12 @@ svg { width: 20px; height: 20px; flex: none; }
   .mobile-bar .brand img { height: 34px; }
   .page { padding: 32px 16px 48px; }
   .chat-scroll { padding: 0 16px; }
-  .composer { padding: 10px 12px 14px; }
+  .composer { padding: 10px 12px 12px; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+  .composer-box { align-items: center; gap: 8px; padding: 4px 4px 4px 18px; border-radius: 28px; }
+  .composer textarea { min-height: 44px; padding: 10px 0; font-size: 16px; line-height: 24px; }
+  .send { width: 44px; height: 44px; align-self: flex-end; }
+  .chat-toolbar { padding-top: 10px; padding-bottom: 10px; }
+  .thread { gap: 18px; padding-bottom: 20px; }
   .chat-home { padding-top: 32px; }
   .suggestions { grid-template-columns: 1fr; margin-top: 28px; }
   .suggestion { min-height: 0; padding: 18px; }
@@ -762,7 +783,22 @@ svg { width: 20px; height: 20px; flex: none; }
   .letter-editor { min-height: 340px; padding: 18px; font-size: 16px; }
   .job-card { padding: 16px; gap: 12px; }
   .job-logo { width: 38px; height: 38px; font-size: 16px; }
-  .msg-user { max-width: 88%; }
+  .msg-user { max-width: 88%; padding: 10px 16px; }
+  .answer { padding: 12px 16px; }
+  .job-title { font-size: 17px; }
+  .job-detail dt { min-width: 58px; }
+  .job-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .job-actions .job-btn { justify-content: center; min-height: 42px; }
+  .quick-reply { font-size: 14px; padding: 8px 14px; }
+  .chips { gap: 8px; }
+  .chip { font-size: 15px; padding: 8px 14px; }
+  .hub-bar { align-items: flex-start; }
+  .filters { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter { white-space: nowrap; }
+  .keep-row { flex-direction: column; gap: 4px; }
+  .keep-row dd { text-align: left; }
+  .brief-actions .primary-btn, .brief-actions .secondary-btn { flex: 1 1 auto; }
   .agent-mark { display: none; }
   .keep-card { padding: 24px 18px; }
   .brief { width: 100%; max-height: 92vh; border-radius: 24px; }
